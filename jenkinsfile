@@ -12,5 +12,10 @@ pipeline {
                sh 'sudo apt install openjdk-21-jdk  -y'
             }
         }
+         stage('clone repository') {
+            steps {
+           git 'https://github.com/anuragjnaik/java11-examples.git'
+            }
+        }
     }
 }
