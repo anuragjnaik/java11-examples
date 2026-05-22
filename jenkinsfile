@@ -3,7 +3,7 @@ pipeline {
 
     stages {
 
-        stage('Install Maven') {
+        stage('Install the Maven') {
             steps {
                 sh '''
                 sudo apt-get update
