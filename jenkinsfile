@@ -2,19 +2,33 @@ pipeline {
     agent any
 
     stages {
-        stage('Install maven') {
+
+        stage('Install Maven') {
             steps {
-               sh 'sudo apt  install maven -y'
+                sh '''
+                sudo apt-get update
+                sudo apt-get install maven -y
+                '''
             }
         }
-         stage('Install jdk') {
+
+        stage('Install JDK') {
             steps {
-               sh 'sudo apt install openjdk-21-jdk  -y'
+                sh '''
+                sudo apt-get install openjdk-21-jdk -y
+                '''
             }
         }
-         stage('clone repository') {
+
+        stage('Clone Repository') {
             steps {
-           git 'https://github.com/anuragjnaik/java11-examples.git'
+                git 'https://github.com/anuragjnaik/java11-examples.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
             }
         }
     }
