@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/anuragjnaik/java11-examples.git'
+            }
+        }
+
+        stage('build') {
+            steps {
+                sh 'sudo docker build -t anuragjnaik/java11-examples:latest -f Dockerfile .'
+            }
+        }
+    }
+}
