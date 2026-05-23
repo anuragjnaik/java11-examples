@@ -14,5 +14,12 @@ pipeline {
                 sh 'docker build -t anuragjnaik/java11-examples:latest -f Dockerfile .'
             }
         }
+
+         stage('push') {
+            steps {
+                sh '''echo \'dckr_pat_xGCk9Nay2GNYIcwrq9RFqzC_Eqc\' | docker login -u anuragjnaik --password-stdin
+docker push anuragjnaik/java11-examples:latest'''
+            }
+        }
     }
 }
