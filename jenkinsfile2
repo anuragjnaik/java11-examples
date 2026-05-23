@@ -9,23 +9,45 @@ pipeline {
             }
         }
 
-        stage('build') {
+        stage('Build Docker Image') {
             steps {
                 sh 'docker build -t anuragjnaik/java11-examples:latest -f Dockerfile .'
             }
         }
 
-         stage('push') {
+        stage('Docker Login & Push') {
             steps {
-                sh '''echo \'dckr_pat_xGCk9Nay2GNYIcwrq9RFqzC_Eqc' | docker login -u anuragjnaik --password-stdin
-docker push anuragjnaik/java11-examples:latest'''
+                sh '''
+                echo 'dckr_pat_xGCk9Nay2GNYIcwrq9RFqzC_Eqc' | docker login -u anuragjnaik --password-stdin
+
+                docker push anuragjnaik/java11-examples:latest
+                '''
             }
         }
 
-sudo apt-get install wget gnupg
-wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
-echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
-sudo apt-get update
-sudo apt-get install trivy
+        stage('Install Trivy') {
+            steps {
+                sh '''
+                sudo apt-get install wget gnupg -y
+
+                wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | \
+                gpg --dearmor | \
+                sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+
+                echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | \
+                sudo tee -a /etc/apt/sources.list.d/trivy.list
+
+                sudo apt-get update
+
+                sudo apt-get install trivy -y
+                '''
+            }
+        }
+
+        stage('Trivy Scan') {
+            steps {
+                sh 'trivy image anuragjnaik/java11-examples:latest'
+            }
+        }
     }
 }
