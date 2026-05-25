@@ -51,6 +51,7 @@ pipeline {
             steps {
                 sh 'trivy image --format json --output result.json --severity HIGH,CRITICAL anuragjnaik/java11-examples:latest'
                     archiveArtifacts artifacts: 'result.json', followSymlinks: false
+                 slackUploadFile channel: 'jenkinsworksp-ahj3555', credentialId: '25492943-71cc-49e7-bddb-6fe248411b9a', filePath: 'result.json'
             }
         }
           stage('mailing') {
