@@ -18,7 +18,7 @@ pipeline {
         stage('Docker Login & Push') {
             steps {
                 sh '''
-                echo 'dckr_pat_xGCk9Nay2GNYIcwrq9RFqzC_Eqc' | docker login -u anuragjnaik --password-stdin
+                echo 'dckr_pat_y8G_6Cn8E_8rkk301v29OKCe9HQ' | docker login -u anuragjnaik --password-stdin
 
                 docker push anuragjnaik/java11-examples:latest
                 '''
