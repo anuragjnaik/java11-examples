@@ -49,7 +49,7 @@ pipeline {
 
         stage('Trivy Scan') {
             steps {
-                sh 'trivy image anuragjnaik/java11-examples:latest'
+                sh 'trivy image anuragjnaik/java11-examples:latest > trivy-report.txt'
             }
         }
           stage('mailing') {
