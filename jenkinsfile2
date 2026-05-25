@@ -15,10 +15,13 @@ pipeline {
             }
         }
 
-        stage('Docker Login & Push') {
+        stage('Push') {
             steps {
+              withCredentials([usernamePassword(credentialsId: 'dockerlogin', passwordVariable: 'password', usernameVariable: 'username')]) {
+    // some block
+}
                 sh '''
-                echo 'dckr_pat_y8G_6Cn8E_8rkk301v29OKCe9HQ' | docker login -u anuragjnaik --password-stdin
+                echo $password | docker login -u $username --password-stdin
 
                 docker push anuragjnaik/java11-examples:latest
                 '''
