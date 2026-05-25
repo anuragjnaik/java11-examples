@@ -18,8 +18,8 @@ pipeline {
         stage('Push') {
             steps {
               withCredentials([usernamePassword(credentialsId: 'dockerlogin', passwordVariable: 'password', usernameVariable: 'username')]) {
-    // some block
-}
+    
+
                 sh '''
                 echo $password | docker login -u $username --password-stdin
 
@@ -27,7 +27,7 @@ pipeline {
                 '''
             }
         }
-
+}
         stage('Install Trivy') {
             steps {
                 sh '''
