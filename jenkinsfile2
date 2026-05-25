@@ -52,5 +52,10 @@ pipeline {
                 sh 'trivy image anuragjnaik/java11-examples:latest'
             }
         }
+          stage('mailing') {
+            steps {
+    mail bcc: '', body: 'i have sent the build and output of trivy scan', cc: '', from: 'naikanurag6003@gmail.com', replyTo: '', subject: 'trivy ', to: 'jn.anurag497@gmail.com'
     }
+}
+ }
 }
