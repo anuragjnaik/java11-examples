@@ -49,7 +49,8 @@ pipeline {
 
         stage('Trivy Scan') {
             steps {
-                sh 'trivy image anuragjnaik/java11-examples:latest > trivy-report.txt'
+                sh 'trivy image --format json --output result.json --severity HIGH,CRITICAL anuragjnaik/java11-examples:latest'
+                    archiveArtifacts artifacts: 'result.json', followSymlinks: false
             }
         }
           stage('mailing') {
